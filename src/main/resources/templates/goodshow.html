@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>金风细雨楼</title>
+    <link href="css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}" >
+
+    <script type="text/javascript" src="js/holder.js" th:src="@{/js/holder.js}"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.js" th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+
+	<style type="text/css">
+	 .prod{
+       list-style: none;
+   }
+  	.prod li{
+      float: left;
+      margin-left: 20px;
+    }
+   .prod li a:visited{
+    color:black;
+   }
+   ul.pagination li a{
+       color:black;
+   }
+	</style>
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            $("#lg").click(function () {
+                var username = $("#username").val();
+                var password = $("#userpassword").val();
+                var ctr =/*[[@{/}]]*/;
+                var url = ctr + "tologin";
+
+                $.post(url, {
+                    "id": username,
+                    "password": password
+                }, function (data, status) {
+                    if (data == "success") {
+                        window.location.href = ctr + "toindex";
+                    } else
+                        $("#showmessages").html("(账号密码错误)");
+                });
+            });
+        $(".may").click(function(){
+            var imgurl=$(this).find("img").attr("src");
+            var text=$(this).find(".goodname").text();
+            var money=$(this).find(".goodprice").text();
+            var ctr =/*[[@{/}]]*/;
+            var url = ctr + "tomay";
+            window.location.href=url+"?imgurl="+imgurl+"&goodname="+text+"&goodprice="+money;
+        });
+
+        $("#btns").click(function(){
+            var ctl=/*[[@{/}]]*/
+            var url=ctl+"findGoodshow";
+            var goodname=$("#mess").val();
+
+            if(goodname.length==0){
+               $("#mess").val("请输入手机名")
+            }else window.location.href=url+"/"+goodname+"/"+1;
+        });
+        });
+
+    </script>
+</head>
+<body>
+ <div class="container">
+     <!--引入导航条-->
+     <div th:replace="bar/head.html::navbar"></div>
+<!-- ---- -->
+<div class="container">
+   <div class="row">
+     <div class="col-md-8 col-md-offset-2">
+
+        <div class="input-group">
+           <div class="input-group-btn">
+               <button class="btn btn-primary">手机名</button>
+           </div>
+           <input type="text" name="mess" id="mess" class="form-control" th:value="${showgood}"/>
+           <div class="input-group-btn">
+              <button class="btn btn-warning" id="btns"><span class="glyphicon glyphicon-search"></span></button>
+           </div>
+        </div>
+
+     </div>
+   </div>
+     
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+       <div class="panel-title">
+            品牌：
+            <ul class="prod">
+                <li><a href="#" th:href="@{/toshopshow}+'/'+0+'/'+1">全部</a></li>
+                <li th:each="band:${bandlist}"><a href="#" th:href="@{/toshopshow}+'/'+${band.bandid}+'/'+1" th:style="${band.bandid==bandid}?'color:blue':'color:black'">[[${band.bandname}]]</a></li>
+            </ul>
+       </div>
+    </div>
+    <div class="panel-body">
+       <div class="row">
+            <div class="col-md-2" th:each="item:${goodlimit.shop}">
+               <div class="thumbnail may">
+                  <img src="holder.js/100x200" style="width:100px;height:150px;" th:src="@{/}+${item.goodimg}" class="goodimg">
+                  <div class="caption text-center">
+                      <p class="goodname">[[${item.goodname}]]</p>
+                      <p class="goodprice">[[${item.goodprice}]]</p>
+                  </div>
+               </div>
+            </div>
+
+       </div>
+    </div>
+</div>
+<div class="container thumbnail text-center">
+     <ul class="pagination" th:if="${mod=='band'}">
+
+         <li th:if="${pageNum!=1}"><a href="#" th:href="@{/toshopshow/}+${bandid}+'/'+${goodlimit.pageNum-1}">&laquo;</a></li>
+         <li th:if="${pageNum==1}"><a href="#" th:href="@{/toshopshow/}+${bandid}+'/'+${goodlimit.pageNum}">&laquo;</a></li>
+
+
+         <li th:each="t:${#numbers.sequence(goodlimit.start,goodlimit.end)}" th:class="${pageNum==t}?'active':''"><a th:href="@{/toshopshow/}+${bandid}+'/'+${t}">[[${t}]]</a></li>
+
+         <li th:if="${pageNum!=goodlimit.totalPage}"><a href="#" th:href="@{/toshopshow/}+${bandid}+'/'+${goodlimit.pageNum+1}">&raquo;</a></li>
+         <li th:if="${pageNum==goodlimit.totalPage}"><a href="#" th:href="@{/toshopshow/}+${bandid}+'/'+${goodlimit.pageNum}">&raquo;</a></li>
+     </ul>
+
+    <!--手机名-->
+    <ul class="pagination" th:if="${mod=='good'}">
+
+        <li th:if="${pageNum!=1}"><a href="#" th:href="@{/findGoodshow/}+${bandid}+'/'+${goodlimit.pageNum-1}">&laquo;</a></li>
+        <li th:if="${pageNum==1}"><a href="#" th:href="@{/findGoodshow/}+${bandid}+'/'+${goodlimit.pageNum}">&laquo;</a></li>
+
+
+        <li th:each="t:${#numbers.sequence(goodlimit.start,goodlimit.end)}" th:class="${pageNum==t}?'active':''"><a th:href="@{/findGoodshow/}+${bandid}+'/'+${t}">[[${t}]]</a></li>
+
+        <li th:if="${pageNum!=goodlimit.totalPage}"><a href="#" th:href="@{/findGoodshow/}+${bandid}+'/'+${goodlimit.pageNum+1}">&raquo;</a></li>
+        <li th:if="${pageNum==goodlimit.totalPage}"><a href="#" th:href="@{/findGoodshow/}+${bandid}+'/'+${goodlimit.pageNum}">&raquo;</a></li>
+    </ul>
+</div>
+<!-- 登陆模态框 -->
+
+     <div th:replace="bar/head.html::login"></div>
+     <!--引入注脚-->
+     <div th:replace="bar/head.html::foot"></div>
+</div>
+</body>
+</html>

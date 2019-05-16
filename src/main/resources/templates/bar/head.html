@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <script type="text/javascript" src="js/holder.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+    <title>金风细雨楼</title>
+
+</head>
+<body>
+         <!--导航条-->
+         <nav class="navbar navbar-inverse" th:fragment="navbar">
+             <div class="container">
+                 <div class="navbar-header">
+                     <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mybar">
+                         <span class="icon-bar"></span>
+                         <span class="icon-bar"></span>
+                         <span class="icon-bar"></span>
+                     </button>
+                     <a class="navbar-brand" href="#" th:href="@{/toindex}">金风细雨楼</a>
+                 </div>
+                 <div class="collapse navbar-collapse" id="mybar">
+                     <ul class="nav navbar-nav">
+                         <li class="active"><a href="#" th:href="@{/toindex}">首页</a></li>
+                         <li><a href="#" th:href="@{/toshopshow}+'/'+0+'/'+1">手机</a></li>
+                         <li><a href="#">电脑</a></li>
+                         <li><a href="#">电视机</a></li>
+                         <li><a href="#">家用电器</a></li>
+                     </ul>
+
+                     <ul class="nav navbar-nav navbar-right">
+                         <li th:if="${session.loginUser==null}"><a href="#" class="btn" data-toggle="modal" data-target="#loginmodal">登录</a></li>
+                         <li th:if="${session.loginUser!=null}"><a href="#" class="btn" data-toggle="dropdown">[[${session.loginUser.username}]]</a>
+                             <ul class="dropdown-menu">
+                                 <li><a th:href="@{/exit}">退出登录</a></li>
+                             </ul>
+                         </li>
+                         <li><a href="#" th:href="@{/toregist}">注册</a></li>
+                         <li><a href="#" th:href="@{/toshopcard}"><span class="glyphicon glyphicon-shopping-cart"></span>购物车</a></li>
+                         <li><a href="#" th:href="@{/tovip}"><span class="glyphicon glyphicon-user"></span>会员中心</a></li>
+                         <li><p class="navbar-text">联系人QQ：648340618</p></li>
+                     </ul>
+
+                 </div>
+             </div>
+         </nav>
+
+         <!-- 登陆模态框 -->
+         <div class="modal fade" id="loginmodal" th:fragment="login">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         User Login<span class="close" data-dismiss="modal">&times;</span>
+                     </div>
+                     <div class="modal-body">
+                         <form id="login" th:action="@{/tologin}" th:method="POST">
+                         <div class="form-group has-success">
+                             <div class="form-group">
+                                 <label>用户名:</label><label id="showmessages"></label>
+                                 <input type="text" class="form-control" name="username" id="username">
+                             </div>
+                             <div class="form-group">
+                                 <label>密码:</label>
+                                 <input type="password" class="form-control" name="userpassword" id="userpassword">
+                             </div>
+                         </div>
+                         </form>
+                     </div>
+                     <div class="modal-footer">
+                         <button class="btn" data-dismiss="modal">Close</button>
+                         <button class="btn btn-primary" id="lg">登录</button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         <div class="bg-danger text-center" th:fragment="foot"><label>Copyright © 2018-2019 author lihuizhi</label>></div>
+</body>
+</html>

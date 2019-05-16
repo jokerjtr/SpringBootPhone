@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>管理员登录界面</title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+	<script type="text/javascript" src="../js/jquery-3.3.1.js" th:src="@{/js/jquery-3.3.1.js}"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+	<meta charset="utf-8">
+	<!-- <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no"> -->
+	<meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+	<script type="text/javascript">
+		   var pro=0;
+		   function setprogress(){
+                   if(pro<100){
+                   	pro+=10;
+                   	document.getElementById("progress").innerHTML=pro+"%";
+                   	document.getElementById("progress").style.width=pro+"%"
+                   }
+                   else{
+                    
+                        document.getElementById("myprogress").style.display="none";
+                        document.getElementById("mylogin").style.display="block";
+                      clearInterval(st);
+                   }
+                   
+		   }
+       var st=setInterval(setprogress,1000);
+	</script>
+</head>
+<body>
+     <div class="container">
+     	<!-- 进度条 -->
+       <div class="row" id="myprogress">
+       	    <div class="col-md-6 col-md-offset-3" style="padding-top: 250px;">
+       	    	 <div class="progress">
+       	    	 	<div class="progress-bar progress-bar-striped active" style="width: 0%" id="progress"></div>
+       	    	 </div>
+       	    </div>
+       </div>
+       <div class="container" id="mylogin" style="padding-top: 100px;display: none;">
+       	   <div class="row">
+       	   	 <div class="col-md-6 col-md-offset-3 thumbnail">
+                <!--  <img style="margin-bottom: 15px;width:50px;height: 100px;" th:src="2.jpg">-->
+       	   	 	<form action="" method="" th:method="post" th:action="@{/admin/toindex}">
+       	   	 		
+       	   	 		<div class="form-group">
+       	   	 			<label>账号：</label>
+       	   	 			<div class="input-group">
+       	   	 			   <span class="input-group-addon glyphicon glyphicon-user"></span>
+       	   	 			   <input type="text" name="adminname" class="form-control">
+       	   	 		    </div>
+       	   	 		</div>
+       	   	 		<div class="form-group">
+       	   	 			<label>密码：</label>
+       	   	 			<div class="input-group">
+       	   	 			 <span class="input-group-addon glyphicon glyphicon-flash"></span>
+       	   	 			<input type="password" name="password" class="form-control">
+       	   	 		    </div>
+       	   	 		</div>
+       	   	 		<div class="form-group">
+       	   	 			
+       	   	 			<button class="btn btn-primary btn-lg" type="submit" style="width: 100%">登录</button>
+       	   	 		</div>
+       	   	 	</form>
+       	   	 </div>
+       	   </div>
+       </div>
+     </div>
+</body>
+</html>

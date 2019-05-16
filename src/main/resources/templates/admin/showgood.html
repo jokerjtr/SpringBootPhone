@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <title>管理员登录界面</title>
+      <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+      <script type="text/javascript" src="../js/jquery-3.3.1.js" th:src="@{/js/jquery-3.3.1.js}"></script>
+      <script type="text/javascript" src="../js/holder.js"></script>
+      <script type="text/javascript" src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+      <meta charset="utf-8">
+      <!-- <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no"> -->
+      <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+      <script type="text/javascript" th:inline="javascript">
+         $("document").ready(function(){
+             $("#search").click(function(){
+                   var text=$("#bandname option:selected").val();
+                 var ctl=/*[[@{/}]]*/;
+                 var url=ctl+"admin/show";
+                 window.location.href=url+"/"+text+"/"+1;
+             });
+         });
+         
+      </script>
+      <style type="text/css">
+        .mess{
+          margin-top:150px;
+        }
+        .message{
+          margin: 15px;
+        }
+        .message span{
+          font-size: 20px;
+          color:white;
+
+        }
+        body{
+          font-family: "微软雅黑";
+        }
+        table tr{
+
+        }
+        table tr td{
+          text-align: center;
+          
+        }
+      </style>
+</head>
+<body>
+     <div class="container">
+        <div class="panel panel-primary">
+             <div class="panel-heading">
+                 <div class="panel-title text-center">
+                   <h3>金风细雨楼系统1.0</h3>
+                   <h6 class="text-right">@author jtr</h6>
+
+                 </div>
+             </div>
+             <div class="panel-body" style="">
+                   <h4 class="text-success"><b>商品展示</b><a class="pull-right" th:href="@{/admin/toindexx}">返回</a></h4>
+                   <br>
+
+                        <table>
+                           <tr>
+                            <td>品牌</td>
+                            <td><select style="width: 150px;" name="bandname" id="bandname">
+                                <option th:value="0">全部</option>
+                                <option th:each="band:${bandlist}" th:value="${band.bandid}" th:if="${band.bandid==bandid}" selected>[[${band.bandname}]]</option>
+                                <option th:each="band:${bandlist}" th:value="${band.bandid}" th:if="${band.bandid!=bandid}">[[${band.bandname}]]</option>
+                            </select></td>
+                            <td>
+                                <button id="search">搜索</button>
+                            </td>
+                          </tr>
+                        </table>
+                   <table class="table table-striped table-bordered table-hover">
+                      <tr>
+                        <th>编号</th>
+                        <th>商品编号</th>
+                        <th>商品名称</th>
+                        <th>商品图片</th>
+                        <th>手机内存</th>
+                        <th>手机颜色</th>
+
+                        <th>价格</th>
+                        <th>操作</th>
+                      </tr>   
+                      <tr th:each="item,itemstatus:${goodlimit.shop}">
+                        <td>[[${itemstatus.count}]]</td>
+                        <td>[[${item.goodid}]]</td>
+                        <td>[[${item.goodname}]]</td>
+                        <td style="text-align:center;"><img  class="thumbnail" th:src="@{/}+${item.goodimg}" style="width:50px;height:50px;"></td>
+                        <td>[[${item.goodram}]]</td>
+                        <td>[[${item.goodcolor}]]</td>
+                        <td>[[${item.goodprice}]]</td>
+                        <td><!--<a class="btn btn-default" href="">修改</a>--><a class="btn btn-default" href="" style="margin-left: 15px;" th:href="@{/admin/deletegood/}+${item.goodid}">下架</a></td>
+                      </tr>
+
+                   </table>
+                 <div class="container thumbnail text-center">
+                     <ul class="pagination">
+
+                         <li th:if="${pageNum!=1}"><a href="#" th:href="@{/admin/show/}+${bandid}+'/'+${goodlimit.pageNum-1}">&laquo;</a></li>
+                         <li th:if="${pageNum==1}"><a href="#" th:href="@{/admin/show/}+${bandid}+'/'+${goodlimit.pageNum}">&laquo;</a></li>
+
+
+                         <li th:each="t:${#numbers.sequence(goodlimit.start,goodlimit.end)}" th:class="${pageNum==t}?'active':''"><a th:href="@{/admin/show/}+${bandid}+'/'+${t}">[[${t}]]</a></li>
+
+                         <li th:if="${pageNum!=goodlimit.totalPage}"><a href="#" th:href="@{/admin/show/}+${bandid}+'/'+${goodlimit.pageNum+1}">&raquo;</a></li>
+                         <li th:if="${pageNum==goodlimit.totalPage}"><a href="#" th:href="@{/admin/show/}+${bandid}+'/'+${goodlimit.pageNum}">&raquo;</a></li>
+                     </ul>
+                 </div>
+                  </div>
+             </div>
+        </div>
+     
+</body>
+</html>

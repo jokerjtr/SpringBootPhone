@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>金风细雨楼</title>
+	<link href="css/bootstrap.css" rel="stylesheet">
+
+	<script type="text/javascript" src="js/holder.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.js" th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+	<meta name="context-path" th:content="${#httpServletRequest.getContextPath()}"/>
+
+
+	<style type="text/css">
+		#re div{
+			margin:15px;
+		}
+	    .caption{
+	    	text-align: center;
+	    }
+	    #goodname{
+	    	font-size: 15px;
+	    	font-weight: bold;
+
+	    }
+	    #goodprice{
+	    	font-size: 10px;
+	    }
+		.banden{
+			font-size:10px;
+			font-weight: bold;
+
+		}
+	    a:link{
+	    	text-decoration: none;
+	    }
+        a:hover{
+            text-decoration:none;
+        }
+    </style>
+
+	<script type="text/javascript" th:inline="javascript">
+
+		$(document).ready(function() {
+            $("#lg").click(function () {
+                var username = $("#username").val();
+                var password = $("#userpassword").val();
+                var ctr =/*[[@{/}]]*/;
+                var url = ctr + "tologin";
+
+                $.post(url, {
+                    "id": username,
+                    "password": password
+                }, function (data, status) {
+                    if (data == "success") {
+                        window.location.href = ctr + "toindex";
+                    } else
+                        $("#showmessages").html("(账号密码错误)");
+                });
+            });
+            //品牌en显示
+            $("span.banden").click(function () {
+                var text = $(this).text();
+                var ctr =/*[[@{/}]]*/;
+                var url = ctr + "findByBanden";
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {"banden": text},
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        showgood(data);
+                    }
+                });
+            });
+            //点击商品去购买页面
+            $(".tomay").click(function(){
+                var imgurl=$(this).find("img").attr("src");
+                var text=$(this).find("#goodname").text();
+                var money=$(this).find("#goodprice").text();
+                var ctr =/*[[@{/}]]*/;
+                var url = ctr + "tomay";
+                window.location.href=url+"?imgurl="+imgurl+"&goodname="+text+"&goodprice="+money;
+            });
+
+        });
+        function showgood(data){
+
+            var len=data.length;
+            $("#re").remove();
+
+            $("#res").append("<div class='row' id='re'></div>");
+            for(var i=0;i<len;i++)
+            {
+                $("#re").append("<div class='thumbnail col-md-2 tomay' style='width:150px;height:300px;' id='shs"+i+"'></div>");
+
+
+                $("#shs"+i).append("<img src='"+data[i]["goodimg"]+ "' style='width:150px;height:150px;'/>");
+                $("#shs"+i).append("<div class='caption' style='width:100px;height:50px;' id='div"+i+"'></div>");
+                $("#div"+i).append("<span class='goodname' id='goodname'>"+data[i]["goodname"]+"</span><br/>");
+                $("#div"+i).append("<span>￥</span><spane class='goodprice' id='goodprice'>"+data[i]["goodprice"]+"</spane>");
+            }
+            //点击商品去购买页面
+            $(".tomay").click(function(){
+                var imgurl=$(this).find("img").attr("src");
+                var text=$(this).find("#goodname").text();
+                var money=$(this).find("#goodprice").text();
+                var ctr =/*[[@{/}]]*/;
+                var url = ctr + "tomay";
+                window.location.href=url+"?imgurl="+imgurl+"&goodname="+text+"&goodprice="+money;
+            });
+        }
+	</script>
+</head>
+<body>
+     <div class="container">
+
+		 <!--引入导航条-->
+		 <div th:replace="bar/head.html::navbar"></div>
+
+         <!-- 幻灯片 -->
+         <div class="carousel slide" data-ride="carousel" id="mycarousel">
+         	   <!-- 幻灯片图片 -->
+         	   <ol class="carousel-indicators">
+         	   	  <li data-slide-to="0" data-target="#mycarousel" class="active"></li>
+         	   	  <li data-slide-to="1" data-target="#mycarousel"></li>
+         	   	  <li data-slide-to="2" data-target="#mycarousel"></li>
+         	   </ol>
+         	  <div class="carousel-inner">
+         	  	 <div class="item active" >
+         	  	 	<img src="image/mourse1.jpg" style="width:1140px;height: 200px;" />
+         	  	 </div>
+         	  	 <div class="item" >
+         	  	 	<img src="image/mourse2.jpg" style="width:1140px;height: 200px;"  />
+         	  	 </div>
+         	  	 <div class="item" >
+         	  	 	<img src="image/mouser3.jpg" style="width:1140px;height: 200px;" />
+         	  	 </div>
+         	  </div>
+         	  <!-- 左右件 -->
+         	  <a class="left carousel-control" data-slide="prev" href="#mycarousel">
+         	  	 <span class="glyphicon glyphicon-chevron-left"></span>
+         	  </a>
+         	   <a class="right carousel-control" data-slide="next" href="#mycarousel">
+         	  	 <span class="glyphicon glyphicon-chevron-right"></span>
+         	  </a></div>
+          <div class="panel-group" style="margin-top:40px;">
+          	   <!-- 热门商品 -->
+          	  <div class="panel panel-info">
+          	  	    <div class="panel-heading">
+          	  	    	<div class="panel-title">
+          	  	    		<h4>热门商品</h4>
+          	  	    	</div>
+          	  	    </div>
+          	  	    <!-- 内容 -->
+          	  	    <div class="panel-body">
+          	  	    	 <div class="row">
+          	  	    	 	<div class="col-md-2">
+          	  	    	 		<div class="thumbnail">
+          	  	    	 			<img src="image/side.jpg" style="width: 150px;height: 300px;">
+          	  	    	 			<hr/>
+          	  	    	 			<div class="row" style="margin: 5px;">
+          	  	    	 				<div class="col-md-6"><span class="banden">Iphone</span></div>
+          	  	    	 				<div class="col-md-6"><span class="banden">HUAWEI</span></div>
+          	  	    	 			</div>
+          	  	    	 			<div class="row" style="margin: 5px;">
+          	  	    	 				<div class="col-md-6"><span class="banden">MI</span></div>
+          	  	    	 				<div class="col-md-6"><span class="banden">Honor</span></div>
+          	  	    	 			</div>
+          	  	    	 			<div class="row" style="margin: 5px;">
+          	  	    	 				<div class="col-md-6"><span class="banden">OPPO</span></div>
+          	  	    	 				<div class="col-md-6"><span class="banden">SUM</span></div>
+          	  	    	 			</div>
+          	  	    	 		</div>
+          	  	    	 		
+          	  	    	 	</div>
+          	  	    	 	<div class="col-md-10" id="res">
+          	  	    	 		
+          	  	    	 			<div class="row" id="re">
+          	  	    	 				<div class="thumbnail col-md-2 tomay" th:each="good,goodstatus:${goodlist}" th:if="${goodstatus.count<=10}" style="width:150px;height:300px;">
+
+
+          	  	    	 					<img src="image/iphone/iphone x/iphone 8.jpg" style="width:100px;height: 150px;" th:src="${good.goodimg}"/>
+          	  	    	 					<div class="caption" style="width:100px;height:50px;">
+          	  	    	 						 <span id="goodname">[[${good.goodname}]]</span>
+          	  	    	 						 <br/>
+          	  	    	 						 ￥<span id="goodprice">[[${good.goodprice}]]</span>
+          	  	    	 					</div>
+
+          	  	    	 				</div>
+                                       
+          	  	    	 		   </div>
+          	  	    	 	</div>
+          	  	    	 </div>
+          	  	    </div>
+          	  </div>
+          	  <!-- 其他商品 -->
+          	  <div class="panel panel-warning">
+          	  	 <div class="panel-heading">
+          	  	 	<div class="panel-title">
+          	  	 		<h4>手机商品</h4>
+          	  	 	</div>
+          	  	 </div>
+          	  	 <div class="panel-body">
+          	  	 		<div class="row" id="fre">
+          	  	    	 	<div class="thumbnail col-md-2">
+          	  	    	 		<a  class="tomay">
+          	  	    	 		  <img src="image/phone/iphone/iphone x/iphone 8.jpg" style="width:100px;height: 150px;" />
+          	  	    	 			<div class="caption">
+          	  	    	 				<span id="goodname">iphone 8</span>
+          	  	    	 				<br/>
+          	  	    	 				￥<span id="goodprice">5556</span>
+          	  	    	 		    </div>
+          	  	    	 		</a>
+          	  	    	 	</div>
+                            <div class="thumbnail col-md-2">
+                                <a  class="tomay">
+                                    <img src="image/phone/honor/honor 20.jpg" style="width:100px;height: 150px;" />
+                                    <div class="caption">
+                                        <span id="goodname">荣耀 20</span>
+                                        <br/>
+                                        ￥<span id="goodprice">8500</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="thumbnail col-md-2">
+                                <a  class="tomay">
+                                    <img src="image/phone/honor/honor 20i.jpg" style="width:100px;height: 150px;" />
+                                    <div class="caption">
+                                        <span id="goodname">荣耀 20i</span>
+                                        <br/>
+                                        ￥<span id="goodprice">9500</span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="thumbnail col-md-2">
+                                <a  class="tomay">
+                                    <img src="image/phone/vivo/vivo z3.jpg" style="width:100px;height: 150px;" />
+                                    <div class="caption">
+                                        <span id="goodname">ViVo Z3</span>
+                                        <br/>
+                                        ￥<span id="goodprice">3500</span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="thumbnail col-md-2">
+                            <a  class="tomay">
+                                <img src="image/phone/vivo/vivo x27.jpg" style="width:100px;height: 150px;" />
+                                <div class="caption">
+                                    <span id="goodname">ViVo X27</span>
+                                    <br/>
+                                    ￥<span id="goodprice">6500</span>
+                                </div>
+                            </a>
+                        </div>
+							<div class="thumbnail col-md-2">
+								<a  class="tomay">
+									<img src="image/phone/sum/sum galaxy a8s.jpg" style="width:100px;height: 150px;" />
+									<div class="caption">
+										<span id="goodname">三星 Galaxy A8s</span>
+										<br/>
+										￥<span id="goodprice">5500</span>
+									</div>
+								</a>
+							</div>
+
+							<div class="thumbnail col-md-2">
+								<a  class="tomay">
+									<img src="image/phone/oppo/oppo r17.jpg" style="width:100px;height: 150px;" />
+									<div class="caption">
+										<span id="goodname">OPPO R17 Pro</span>
+										<br/>
+										￥<span id="goodprice">5500</span>
+									</div>
+								</a>
+							</div>
+
+							<div class="thumbnail col-md-2">
+								<a  class="tomay">
+									<img src="image/phone/oppo/oppo r15x.jpg" style="width:100px;height: 150px;" />
+									<div class="caption">
+										<span id="goodname">OPPO R15X</span>
+										<br/>
+										￥<span id="goodprice">8500</span>
+									</div>
+								</a>
+							</div>
+
+							<div class="thumbnail col-md-2">
+								<a  class="tomay">
+									<img src="image/phone/mi/mi 9 se.jpg" style="width:100px;height: 150px;" />
+									<div class="caption">
+										<span id="goodname">小米 9SE</span>
+										<br/>
+										￥<span id="goodprice">8590</span>
+									</div>
+								</a>
+							</div>
+
+							<div class="thumbnail col-md-2">
+								<a  class="tomay">
+									<img src="image/phone/mi/mi 8 se.jpg" style="width:100px;height: 150px;" />
+									<div class="caption">
+										<span id="goodname">小米 8 se</span>
+										<br/>
+										￥<span id="goodprice">4000</span>
+									</div>
+								</a>
+							</div>
+
+                            <div class="thumbnail col-md-2">
+                                <a  class="tomay">
+                                    <img src="image/phone/honor/honor 10yougth.jpg" style="width:100px;height: 150px;" />
+                                    <div class="caption">
+                                        <span id="goodname">荣耀 10青春版</span>
+                                        <br/>
+                                        ￥<span id="goodprice">6500</span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="thumbnail col-md-2">
+                                <a  class="tomay">
+                                    <img src="image/phone/huawei/huawei p/huawei p30 pro.jpg" style="width:100px;height: 150px;" />
+                                    <div class="caption">
+                                        <span id="goodname">华为 P30 Pro</span>
+                                        <br/>
+                                        ￥<span id="goodprice">9500</span>
+                                    </div>
+                                </a>
+                            </div>
+          	  	    	</div>
+          	  	 </div>
+          	  </div>
+          </div>
+          <!-- 登陆模态框 -->
+
+		  <div th:replace="bar/head.html::login"></div>
+          <!--引入注脚-->
+		 <div th:replace="bar/head.html::foot"></div>
+
+     </div>
+</body>
+</html>

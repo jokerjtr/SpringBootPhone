@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean name="indexservice" class="com.jtr.phoneshop.Service.IndexService"></bean>
+    <bean name="userService" class="com.jtr.phoneshop.Service.UserService"></bean>
+    <bean name="User" class="com.jtr.phoneshop.pojo.User"></bean>
+    <bean name="goodService" class="com.jtr.phoneshop.Service.GoodService"></bean>
+    <bean name="useraddr" class="com.jtr.phoneshop.pojo.UserAddR"></bean>
+    <bean name="good" class="com.jtr.phoneshop.pojo.Good"></bean>
+    <bean name="orders" class="com.jtr.phoneshop.pojo.Orders"></bean>
+    <bean name="orderservice" class="com.jtr.phoneshop.Service.OrderService"></bean>
+    <bean name="adminservice" class="com.jtr.phoneshop.Service.AdminService"></bean>
+    <bean name="ordercutsor" class="com.jtr.phoneshop.pojo.OrderCustor"></bean>
+</beans>

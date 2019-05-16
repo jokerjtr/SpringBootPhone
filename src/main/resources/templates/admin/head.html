@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <title>管理员登录界面</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <script type="text/javascript" src="../js/jquery-3.3.1.js" th:src="@{/js/jquery-3.3.1.js}"></script>
+
+    <script type="text/javascript" src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+      <meta charset="utf-8">
+      <!-- <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no"> -->
+      <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+      <script type="text/javascript">
+            $(document).ready(function(){
+                 $("ul.nav-tabs li").click(function(){
+                        $(this).addClass("active");
+                        $("ul.nav-tabs li").not($(this)).removeClass("active");
+                 });
+                 $("#re").click(function(){
+                     $("#myform")[0].reset();
+                 });
+                $("#qe").click(function(){
+                    $("#myform").submit();
+                });
+                $("#mys").click(function(){
+
+
+                    var text=$("#idcard").val();
+                    if(text.length==0){
+                        alert("请输入用户名");
+                    }else{
+                        $("#my").submit();
+                    }
+
+                });
+            }); 
+            function settimes(){
+                var date=new Date();
+                 var year=date.getFullYear();
+
+                 var month=date.getMonth();
+                 var day=date.getDate();
+                 var hours=date.getHours();
+                 var minutes=date.getMinutes();
+
+                 var second=date.getSeconds();
+                 var test=year+"-"+month+"-"+day+"  "+hours+":"+minutes+":"+second;
+                 document.getElementById("times").innerHTML=test;
+               
+                 setTimeout("settimes()",1000);
+            } 
+
+         
+      </script>
+      <style type="text/css">
+        .mess{
+          margin-top:150px;
+        }
+        .message{
+          margin: 15px;
+        }
+        .message span{
+          font-size: 20px;
+          color:blue;
+
+        }
+        body{
+          font-family: "微软雅黑";
+        }
+      </style>
+</head>
+<body onload="settimes()">
+     <div class="container">
+        <div class="panel panel-primary">
+             <div class="panel-heading">
+                 <div class="panel-title text-center">
+                   <h3>金风细雨楼系统1.0</h3>
+                   <h6 class="text-right">@author jtr</h6>
+                 </div>
+             </div>
+             <div class="panel-body">
+                  <!-- 导航栏 -->
+                  <div class="">
+                    <nav>
+                      <ul class="nav nav-tabs">
+                         <li class="active"><a href=""  th:href="@{/admin/toindexx}">首页</a></li>
+                         <li><a href="#" data-toggle="dropdown">产品中心<span class="caret"></span>
+                          <ul class="dropdown-menu">
+                             <li><a href="产品展示.html" th:href="@{/admin/show/}+0+'/'+1">产品展示</a></li>
+                             <li class="divider"></li>
+                             <li><a href="bandfile.html" th:href="@{/admin/toband}">品牌上架</a></li>
+                             <li class="divider"></li>
+                             <li><a href="shopfile.html" th:href="@{/admin/togood}">商品上架</a></li>
+                          </ul>
+                         </a></li>
+                         <li><a href="#" data-toggle="dropdown">销售管理<span class="caret"></span>
+                          <ul class="dropdown-menu">
+                              <li><a href="orderoper.html" th:href="@{/admin/orderoper/0/1/1}">销售统计</a></li>
+                          </ul>
+                         </a></li>
+                         <li><a href="#" data-toggle="dropdown">订单管理<span class="caret"></span>
+                            <ul class="dropdown-menu">
+                              <li><a href="#" th:href="@{/admin/toorderoper}">订单处理</a></li>
+                          </ul>
+                         </a></li>
+                      <!--   <li><a href="#" data-toggle="dropdown">用户管理<span class="caret"></span>
+                          <ul class="dropdown-menu">
+                              <li><a href="#">用户管理</a></li>
+                          </ul>
+                         </a></li>-->
+                         <li>
+                          <a href="#" data-toggle="dropdown">个人管理<span class="caret"></span>
+
+                            <ul class="dropdown-menu">
+                              <li><a href="#" data-toggle="modal" data-target="#mymessage">个人信息更改</a></li>
+                              <li>
+                          <a href="#" data-toggle="modal" data-target="#mypsd">口令修改</a></li>
+                              <li><a href="" onclick="return confirm('确认退出系统？')" th:href="@{/admin/exit}">退出系统</a></li>
+                            </ul>
+                         </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                  <!-- 个人中心 -->
+                  <div class="">
+                      <h4 class="text-success"><b>个人信息</b></h4>
+                      <hr/>
+                      <div class="row thumbnail" style="width:100%;height: 500px;background: url('../image/601846.jpg');background-repeat:no-repeat;background-size:100% 100%;">
+                        <div class="col-md-6 col-md-offset-4">
+                    <!--       <div class="mess">
+                                <div class="message">
+                                  <span>账号：</span>
+                                  <span>admin</span>
+                                </div>  
+                                <div class="message">
+                                  <span>姓名：</span>
+                                  <span>admin</span>
+                                </div>  
+                                 <div class="message">
+                                  <span>上次登录时间：</span>
+                                  <span>admin</span>
+                                </div> 
+                                <div class="message">
+                                  <span>时间：</span>
+                                  <span id="times"></span>
+                                </div>                      
+                          </div>-->
+                        </div>
+                      </div>
+                     
+                  </div>
+             </div>
+        </div>
+        <!-- 口令修改模态框 -->
+        <div class="modal fade" id="mypsd">
+          <div class="modal-dialog">
+             <div class="modal-content">
+                <div class="modal-header">
+                   口令修改<span class="close" data-dismiss="modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                  <form id="myform" th:method="post" th:action="@{/admin/updatepsd}">
+                    <div class="form-group">
+                      <label>原始口令：</label>
+                      <input type="password" name="password" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>新口令：</label>
+                      <input type="password" name="name" class="form-control"/>
+                    </div>
+                   
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-default" type="reset" id="re">清空</button>
+                  <button class="btn btn-default" type="submit" id="qe">确认</button>
+                </div>
+             </div>
+          </div>
+        </div>
+        <!-- 身份信息模态框 -->
+        <div class="modal fade" id="mymessage">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                 身份信息<span class="close" data-dismiss="modal">&times;</span>
+              </div>
+              <div class="modal-body">
+                   <form th:action="@{/admin/updatename}" th:method="post" id="my">
+                      <div class="form-group">
+                        <label>账号：</label>
+                        <input type="text"  class="form-control" name="adminname" id="idcard" required/>
+                      </div>
+                       <div class="form-group">
+                           <label>用户名：</label>
+                           <input name="name" class="form-control" type="text"  required/>
+                       </div>
+                       <div class="form-group">
+                           <label>Email:</label>
+                           <input  class="form-control" type="email" name="email" required/>
+                       </div>
+                       <div class="form-group">
+                           <label>Phone:</label>
+                           <input class="form-control" type="email" name="phone" required/>
+                       </div>
+                   </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-default" type="reset">Close</button>
+                <button class="btn btn-primary" type="submit" id="mys">确认</button>
+              </div>
+            </div>
+          </div>
+        </div>
+     </div>
+</body>
+</html>

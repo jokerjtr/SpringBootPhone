@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <title>管理员登录界面</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <script type="text/javascript" src="../js/jquery-3.3.1.js" th:src="@{/js/jquery-3.3.1.js}"></script>
+
+    <script type="text/javascript" src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+      <meta charset="utf-8">
+      <!-- <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no"> -->
+      <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+      <script type="text/javascript">
+      
+         
+      </script>
+      <style type="text/css">
+        label{
+          color:green;
+        }
+        
+      </style>
+</head>
+<body>
+     <div class="container">
+        <div class="panel panel-primary">
+             <div class="panel-heading">
+                 <div class="panel-title text-center">
+                   <h3>金风细雨楼系统1.0</h3>
+                   <h6 class="text-right">@author jtr</h6>
+                 </div>
+             </div>
+             <div class="panel-body">
+                   <h4 class="text-success"><b>手机上架</b></h4>
+                   <br>
+                   <div class="row">
+                       <div class="col-md-4 col-md-offset-4">
+                          <form class="thumbnail has-success" th:method="post" th:action="@{/admin/addgood}" enctype="multipart/form-data">
+                              <div class="form-group">
+                                 <label>手机名称</label>
+                                 <input type="text" name="goodname" class="form-control" required>
+                              </div>
+                              <div class="form-group">
+                                 <label>品牌</label>
+                                 <select name="bandid" class="form-control">
+                                    <option th:each="band:${bandlist}" th:value="${band.bandid}">[[${band.bandname}]]</option>
+
+                                 </select>
+                              </div>
+                              <div class="form-group">
+                                 <label>手机颜色</label>
+                                 <input type="text" name="goodcolor" class="form-control"  required>
+                              </div>
+                              <div class="form-group">
+                                 <label>手机内存</label>
+                                 <input type="text" name="goodram" class="form-control"  required>
+                              </div>
+                              <div class="form-group">
+                                 <label>手机价格</label>
+                                 <input type="text" name="goodprice" class="form-control"  required>
+                              </div>
+                              <div class="form-group">
+                                 <label>手机库存</label>
+                                 <input type="text" name="goodnumber" class="form-control"  required>
+                              </div>
+                              <div class="form-group">
+                                 <label>手机图片</label>
+                                 <input type="file" name="file" class="form-control"  required>
+                              </div>
+                              <div class="form-group">
+                                  <label>手机状态</label>
+                                  <select name="goodstatus" class="form-control">
+                                      <option value="0">新品</option>
+                                      <option value="0">非新品</option>
+                                  </select>
+                              </div>
+                              <div class="form-group text-right">
+                                <button class="btn btn-default" type="reset">清空</button>
+                                 <button class="btn btn-primary" type="submit">确认</button>
+                                 
+                              </div>
+                          </form>
+                       </div>
+                   </div>
+                  
+                  </div>
+             </div>
+        </div>
+     
+</body>
+</html>

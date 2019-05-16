@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <title>管理员登录界面</title>
+      <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+      <script type="text/javascript" src="../js/jquery-3.3.1.js" th:src="@{/js/jquery-3.3.1.js}"></script>
+
+      <script type="text/javascript" src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+      <meta charset="utf-8">
+      <!-- <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no"> -->
+      <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+      <script type="text/javascript" th:inline="javascript">
+        $("document").ready(function(){
+             $("#re").click(function(){
+                 var bandid=$("#bandname option:selected").val();
+                 var asc=$("#asc option:selected").val();
+                 var ctl=/*[[@{/}]]*/;
+                 var url=ctl+"admin/orderoper"
+                 window.location.href=url+'/'+parseInt(bandid)+'/'+1+'/'+parseInt(asc);
+             });
+             $("#time").change(function () {
+                    var text=$("#time option:selected").val();
+                      var tc=/*[[@{/}]]*/;
+                      var url=tc+"admin/findByTimeASC/"+parseInt(text);
+                      window.location.href=url;
+             });
+        });
+         
+      </script>
+      <style type="text/css">
+     
+        body{
+          font-family: "微软雅黑";
+        }
+        table tr{
+
+        }
+        table tr td{
+          text-align: center;
+          
+        }
+        th{
+          text-align:center;
+        }
+      </style>
+</head>
+<body>
+     <div class="container">
+        <div class="panel panel-primary">
+             <div class="panel-heading">
+                 <div class="panel-title text-center">
+                   <h3>金风细雨楼系统1.0</h3>
+                   <h6 class="text-right">@author jtr</h6>
+
+                 </div>
+             </div>
+             <div class="panel-body" style="">
+                   <h4 class="text-success"><b>销售统计</b><a th:href="@{/admin/toindexx}" th:class="pull-right">返回</a></h4>
+                   <br>
+                      <table>
+                           <tr>
+                               <label>品牌</label>
+                            <td><select style="width: 150px;" name="bandname" id="bandname" class="form-control">
+                                <option value="0">全部</option>
+                                <option th:each="band:${bandlist}" th:value="${band.bandid}" th:if="${bandid==band.bandid}" selected>[[${band.bandname}]]</option>
+                                <option th:each="band:${bandlist}" th:value="${band.bandid}" th:if="${bandid!=band.bandid}">[[${band.bandname}]]</option>
+                            </select></td>
+                        
+                            <td>
+                              <select name="asc" id="asc" class="form-control">
+                                 <option value="0" th:if="${asc==0}" selected>升序</option>
+                                  <option value="0" th:if="${asc!=0}">升序</option>
+                                 <option value="1" th:if="${asc==1}" selected>降序</option>
+                                  <option value="1" th:if="${asc!=1}">降序</option>
+                              </select>
+                            </td>
+                                <td><button id="re" class="form-control">确认</button></td>
+                          </tr>
+                        </table>
+
+                 <div class="form-group">
+                            <label>月销售</label>
+                             <select name="times" id="time" class="form-control">
+                                 <option value="0">请选择</option>
+                                 <option value="1">1月</option>
+                                 <option value="2">2月</option>
+                                 <option value="3">3月</option>
+                                 <option value="4">4月</option>
+                                 <option value="5">5月</option>
+                                 <option value="6">6月</option>
+                                 <option value="7">7月</option>
+                                 <option value="8">8月</option>
+                                 <option value="9">9月</option>
+                                 <option value="10">10月</option>
+                                 <option value="11">11月</option>
+                                 <option value="12">12月</option>
+                             </select>
+                 </div>
+                 <table class="table table-bordered table-striped table-hover">
+                      <tr class="info">
+                          <th>编号</th>
+                        <th>手机id</th>
+                        <th>手机名</th>
+                        <th>手机颜色</th>
+                        <th>手机内存</th>
+                        <th>手机品牌</th>
+                        <th>销售数量</th>
+                      </tr>
+                      <tr th:each="t,status:${goodlist.shop}">
+                          <td>[[${status.count}]]</td>
+                        <td>[[${t.goodid}]]</td>
+                        <td>[[${t.goodname}]]</td>
+                        <td>[[${t.goodcolor}]]</td>
+                        <td>[[${t.goodram}]]</td>
+                        <td>[[${t.bandname}]]</td>
+                        <td>[[${t.goodnumber}]]</td>
+                      </tr>
+                   </table>
+                 <div class="thumbnail text-center">
+                     <ul class="pagination" th:if="${mods==1}">
+                         <li th:if="${pageNum!=1}"><a th:href="@{/admin/orderoper/}+${bandid}+'/'+${pageNum-1}+'/'+${asc}">&laquo;</a></li>
+                         <li th:if="${pageNum==1}"><a th:href="@{/admin/orderoper/}+${bandid}+'/'+1+'/'+${asc}">&laquo;</a></li>
+
+                         <li th:each="t:${#numbers.sequence(goodlist.start,goodlist.end)}" th:class="${pageNum==t}?'active':''"><a th:href="@{/admin/orderoper/}+${bandid}+'/'+${t}+'/'+${asc}">[[${t}]]</a></li>
+
+                         <li th:if="${pageNum!=goodlist.totalPage}"><a th:href="@{/admin/orderoper/}+${bandid}+'/'+${pageNum+1}+'/'+${asc}">&raquo;</a></li>
+                         <li th:if="${pageNum==goodlist.totalPage}"><a th:href="@{/admin/orderoper/}+${bandid}+'/'+${goodlist.totalPage}+'/'+${asc}">&raquo;</a></li>
+
+                     </ul>
+
+                 </div>
+                  </div>
+             </div>
+
+     
+</body>
+</html>

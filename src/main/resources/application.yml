@@ -1,0 +1,9 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    username: root
+    password: 648340618
+    url: jdbc:mysql://localhost:3306/phone?charEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+

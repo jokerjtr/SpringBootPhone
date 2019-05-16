@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <title>管理员登录界面</title>
+      <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+      <script type="text/javascript" src="../js/jquery-3.3.1.js" th:src="@{/js/jquery-3.3.1.js}"></script>
+      <script type="text/javascript" src="../js/holder.js"></script>
+      <script type="text/javascript" src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+      <meta charset="utf-8">
+      <!-- <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no"> -->
+      <meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+      <script type="text/javascript" th:inline="javascript">
+        $("document").ready(function () {
+               $(".ws").click(function(){
+                   var text=$(this).attr("mess");
+                   var st=$(this).parents("tr").find("select option:selected").val();
+                   var ctl=/*[[@{/}]]*/;
+                   var url=ctl+"admin/check/"+text+"/"+st;
+                   window.location.href=url;
+               });
+        });
+         
+      </script>
+      <style type="text/css">
+        label{
+          color:green;
+        }
+        
+      </style>
+</head>
+<body>
+     <div class="container">
+         <div class="panel panel-primary">
+             <div class="panel-heading">
+                 <div class="panel-title text-center">
+                   <h3>金风细雨楼系统1.0</h3>
+                   <h6 class="text-right">@author jtr</h6>
+                 </div>
+             </div>
+             <div class="panel-body">
+                   <h4 class="text-success"><b>订单处理</b><a th:href="@{/admin/toindexx}" th:class="pull-right">反回</a></h4>
+                   <br>
+                   <div class="row">
+                      <div class="col-md-3">
+                  <!--      <form>
+                          <div class="input-group">
+                             <span class="input-group-addon">品牌</span>
+                             <input type="text" class="form-control" name="band">
+                             <span class="input-group-btn"><button class="btn btn-warning">确认</button></span>
+                          </div>
+                          
+                      </form>-->
+                      </div>
+                   </div>
+                  <div>
+                     <table class="table">
+                        <tr>
+                           <th>编号</th>
+                           <th>订单编号</th>
+                           <th>手机名</th>
+                           <th>手机参数</th>
+                           <th>手机品牌名</th>
+                           <th>订单数量</th>
+                           <th>库存</th>
+                           <th>价格总计</th>
+                           <th>订单状态</th>
+                           <th>操作</th>
+                        </tr>
+                        <tr th:each="t,status:${orderlist}">
+                           <td>[[${status.count}]]</td>
+                           <td>[[${t.goodid}]]</td>
+                           <td>[[${t.goodname}]]</td>
+                           <td>[[${t.goodram}]]&nbsp;[[${t.goodcolor}]]</td>
+                           <td>[[${t.bandname}]]</td>
+                           <td>[[${t.goodtotal}]]</td>
+                           <td>[[${t.goodnumber}]]</td>
+                           <td>[[${t.totalmoney}]]</td>
+                            <td>
+                                <select>
+                                    <option value="0">订单提交</option>
+                                    <option value="1">订单通过</option>
+                                    <option value="2">订单不通过</option>
+                                </select>
+                            </td>
+
+                           <td><button class="btn btn-link ws" th:attr="mess=${t.orderid}+'/'+${t.goodtotal}+'/'+${t.goodid}">确认</button></td>
+                        </tr>
+                     </table>
+                  </div>
+
+             </div>
+             </div>
+
+     </div>
+     
+</body>
+</html>

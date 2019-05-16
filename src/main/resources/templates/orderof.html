@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>金风细雨楼-订单确认</title>
+	<link href="css/bootstrap.css" rel="stylesheet" >
+	<script type="text/javascript" src="js/bootstrap.min.css"></script>
+	<script type="text/javascript" src="js/holder.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,inital-scal=1,maximum-scal=1,user-scalable=no">
+	<style type="text/css">
+		
+	</style>
+  <script type="text/javascript" th:inline="javascript">
+      $(document).ready(function(){
+          $("#lg").click(function () {
+              var username = $("#username").val();
+              var password = $("#userpassword").val();
+              var ctr =/*[[@{/}]]*/;
+              var url = ctr + "tologin";
+
+              $.post(url, {
+                  "id": username,
+                  "password": password
+              }, function (data, status) {
+                  if (data == "success") {
+                      window.location.href = ctr + "toindex";
+                  } else
+                      $("#showmessages").html("(账号密码错误)");
+              });
+          });
+      });
+  </script>
+</head>
+<body>
+     <div class="container">
+         <div th:replace="bar/head.html::navbar"></div>
+          <!--  订单确认-->
+          <div class="panel panel-warning">
+            <div class="panel-heading">
+              <div class="panel-title">
+                <h4>订单确认</h4>
+              </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <img src="holder.js/200px400" class="thumbnail" th:src="${goodimg}" style="width:200px;height:200px;"/>
+                  </div>
+                  <div class="col-md-6 col-md-offset-3">
+                     <form th:method="post" th:action="@{/productorder}">
+                        <div class="form-group">
+                          <label>商品名称</label>
+                          <input type="text" name="goodname" readonly class="form-control" th:placeholder="${goodname}" th:value="${goodname}"/>
+                        </div>
+                        <div class="form-group">
+                          <label>商品参数</label>
+                          <input type="text" name="message" readonly class="form-control" th:placeholder="${casu}" th:value="${casu}">
+                        </div>
+
+                         <div class="form-group">
+                          <label>商品数量</label>
+                          <input type="text" name="totalnumber" readonly class="form-control" th:placeholder="${goodnumber}" th:value="${goodnumber}">
+                        </div>
+                         <div class="form-group">
+                          <label>商品价格总计</label>
+                          <input type="text" name="totalmoney" readonly class="form-control" th:placeholder="${totalmoney}" th:value="${totalmoney}">
+                        </div>
+                        <div class="form-group">
+                             <label>收货人地址</label>
+                             <select name="addressid">
+                                <option th:each="addr:${addresslist}" th:value="${addr.addressid}">
+                                     收获人姓名：[[${addr.addressname}]]
+                                     收获人联系电话:[[${addr.addressphone}]]
+                                     收货人地址:[[${addr.addr}]]
+                                </option>
+                             </select>    
+                        </div>
+                        <div class="form-group">
+                            <label>支付方式</label>
+                            <input type="radio" name="sendtype" value="0" checked>线上支付
+                            <input type="radio" name="sendtype" value="1">货到付款
+                        </div>
+                        <div class="form-group text-right">
+                          <a class="btn btn-link" href="#" th:href="@{/toindex}">返回</a>
+                          <button class="btn btn-warning" type="submit">确认订单</button>
+                        </div>
+                      <form>
+                  </div>
+                </div>
+            </div>
+          </div>
+   
+          <!-- 登陆模态框 -->
+         <div th:replace="bar/head.html::login"></div>
+
+         <div th:replace="bar/head.html::foot"></div>
+     </div>
+</body>
+</html>
